@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class MyConstant {
   static String appName = 'Office Queue';
+  // static String domain = 'http://192.168.43.88';
   static String domain = 'http://192.168.1.112';
 
 

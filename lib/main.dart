@@ -1,19 +1,3 @@
-// import 'package:flutter/material.dart';
-// import 'package:officeq_ocr/authen.dart';
-
-// void main() => runApp(MyApp());
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({ Key? key }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-
-//     home: Authen(),);
-//   }
-// }
-
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -116,6 +100,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.lime,
         // buttonColor: Colors.lime,
@@ -149,8 +134,6 @@ class _MyAppState extends State<MyApp> {
 
   Widget _getOcrScreen(BuildContext context) {
     List<Widget> items = [];
-
-    
 
     /*
     items.add(Padding(
@@ -264,8 +247,6 @@ class _MyAppState extends State<MyApp> {
       ),
       children: items,
     );
-
-    
   }
 
   ///
@@ -487,10 +468,7 @@ class _MyAppState extends State<MyApp> {
     //setState(() => _textsOcr = texts);
     setState(() {
       _textsOcr = texts;
-
-      
     });
-    
   }
 }
 
@@ -504,7 +482,7 @@ class OcrTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('ocrText : ${ocrText.value}');
+    // print('ocrText : ${ocrText.value}');
     return ListTile(
       leading: const Icon(Icons.title),
       title: Text(ocrText.value),

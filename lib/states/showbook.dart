@@ -1,5 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:officeq_ocr/states/customtablecalendar.dart';
+import 'package:officeq_ocr/utility/my_dialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:table_calendar/table_calendar.dart';
 
 import '../utility/appcolors.dart';
@@ -20,6 +25,7 @@ class _ShowBookState extends State<ShowBook> {
   DateTime? selectedCalendarDate;
   final titleController = TextEditingController();
   final descpController = TextEditingController();
+  var formatter = DateFormat('dd-MM-yyyy');
 
   late Map<DateTime, List<MyEvents>> mySelectedEvents;
 
@@ -43,8 +49,24 @@ class _ShowBookState extends State<ShowBook> {
     return mySelectedEvents[dateTime] ?? [];
   }
 
-  Future<Null> InsertSubject() async {
-    String apiInsertSubject = '${MyConstant.domain}/Mobile/Flutter2/Train/officequeue_ocr/php/insertSubject.php';
+  Future<Null> InsertSubject(
+      {String? dateSub, String? sub, String? xdesc, String? status}) async {
+
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String idUser = preferences.getString('id')!;
+    String name = preferences.getString('name')!;
+
+    String apiInsertSubject =
+        '${MyConstant.domain}/Mobile/Flutter2/Train/officequeue_ocr/php/InsertSubject.php?isAdd=true&idUser=$idUser&name=$name&dateSub=$dateSub&sub=$sub&xdesc=$xdesc&status=$status';
+    // print('Insert DB1');
+    await Dio().get(apiInsertSubject).then((value) async {
+      if (value.toString().trim() == 'null') {
+        MyDialog()
+            .normalDialog(context, 'บันทึกข้อมูล', 'ไม่สามารถบันทึกข้อมูลได้');
+      } else {
+        MyDialog().normalDialog(context, 'บันทึกข้อมูล', 'บันทึกเรียบร้อย');
+      }
+    });
   }
 
   Future<Null> _addEventDialog() async {
@@ -81,11 +103,17 @@ class _ShowBookState extends State<ShowBook> {
                 // Navigator.pop(context);
                 return;
               } else {
+                // print('Before statexxxxx');
+                // print('mySelectedEvents : ${mySelectedEvents[selectedCalendarDate]}');
                 setState(() {
                   if (mySelectedEvents[selectedCalendarDate] != null) {
-
                     // Insert data to DB
-                    
+                    // print('Add db');
+                    // InsertSubject(
+                    //     dateSub: selectedCalendarDate.toString(),
+                    //     sub: titleController.text,
+                    //     xdesc: descpController.text,
+                    //     status: 'wait');
 
                     mySelectedEvents[selectedCalendarDate]?.add(MyEvents(
                         eventTitle: titleController.text,
@@ -97,6 +125,15 @@ class _ShowBookState extends State<ShowBook> {
                           eventDescp: descpController.text)
                     ];
                   }
+
+                  // print('selectedCalendarDate : ${formatter.format(selectedCalendarDate!)}');  
+                  InsertSubject(
+                        //dateSub: selectedCalendarDate.toString(),
+                        dateSub: formatter.format(selectedCalendarDate!).toString(),
+                        sub: titleController.text,
+                        xdesc: descpController.text,
+                        status: 'Waiting');
+
                 });
 
                 titleController.clear();
@@ -211,6 +248,11 @@ class _ShowBookState extends State<ShowBook> {
                     setState(() {
                       selectedCalendarDate = selectedDay;
                       _focusedCalendarDate = focusedDay;
+                      
+                      // print('selectedCalendarDate : $selectedCalendarDate');
+                      print('selectedCalendarDate : ${formatter.format(selectedCalendarDate!)}');
+                      print('_focusedCalendarDate : $_focusedCalendarDate');
+                      
                     });
                   }
                 },
@@ -235,6 +277,7 @@ class _ShowBookState extends State<ShowBook> {
     );
   }
 }
+
 class MyEvents {
   final String eventTitle;
   final String eventDescp;

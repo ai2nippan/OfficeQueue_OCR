@@ -4,7 +4,7 @@ import 'package:officeq_ocr/widgets/show_image.dart';
 import 'package:officeq_ocr/widgets/show_title.dart';
 
 class MyDialog {
-  Future<Null> normalDialog(
+  Future<void> normalDialog(
       BuildContext context, String title, String message) async {
     showDialog(
         context: context,

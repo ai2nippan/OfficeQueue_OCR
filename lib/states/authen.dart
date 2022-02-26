@@ -30,7 +30,7 @@ class _AuthenState extends State<Authen> {
     super.initState();
 
     checkAuthen(user: widget.ocrText.value);
-    print('ocrText : ${widget.ocrText.value}');
+    // print('ocrText : ${widget.ocrText.value}');
   }
 
   Future<Null> checkAuthen({String? user}) async {
