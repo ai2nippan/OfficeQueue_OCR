@@ -1,0 +1,13 @@
+CREATE TABLE `events` (
+	`idSub` INT(11) NOT NULL AUTO_INCREMENT,
+	`idUser` TEXT NULL,
+	`name` TEXT NULL,
+	`dateSub` TEXT NULL,
+	`sub` TEXT NULL,
+	`xdesc` TEXT NULL,
+	`status` TEXT NULL,
+	PRIMARY KEY (`idSub`)
+)
+COLLATE='tis620_thai_ci'
+ENGINE=MyISAM
+;

@@ -1,0 +1,16 @@
+CREATE TABLE `user` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`name` TEXT NULL,
+	`usertype` TEXT NULL,
+	`occupation` TEXT NULL,
+	`sex` TEXT NULL,
+	`age` TEXT NULL,
+	`email` TEXT NULL,
+	`phone` TEXT NULL,
+	`user` TEXT NULL,
+	`password` TEXT NULL,
+	PRIMARY KEY (`id`)
+)
+COLLATE='tis620_thai_ci'
+ENGINE=MyISAM
+;
